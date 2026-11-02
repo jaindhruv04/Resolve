@@ -1,21 +1,43 @@
+
 #include <iostream>
-#include "../include/token.h"
+#include "../include/lexer.h"
 
 using namespace std;
 
 int main()
 {
-    Token token;
+    string input;
 
-    token.type = TokenType::KEYWORD;
-    token.lexeme = "int";
-    token.line = 1;
-    token.column = 1;
+    cout << "Enter source code (type END on a new line to finish):" << endl;
 
-    cout << "Token Type: " << tokenTypeToString(token.type) << endl;
-    cout << "Lexeme: " << token.lexeme << endl;
-    cout << "Line: " << token.line << endl;
-    cout << "Column: " << token.column << endl;
+    string line;
+
+    while (getline(cin, line))
+    {
+        if (line == "END")
+        {
+            break;
+        }
+
+        input += line + "\n";
+    }
+
+    Lexer lexer(input);
+
+    vector<Token> tokens = lexer.tokenize();
+
+    cout << "\nTOKEN TABLE\n";
+    cout << "-----------------------------------------------\n";
+    cout << "TYPE\t\tLEXEME\t\tLINE\tCOLUMN\n";
+    cout << "-----------------------------------------------\n";
+
+    for (int i = 0; i < tokens.size(); i++)
+    {
+        cout << tokenTypeToString(tokens[i].type) << "\t\t"
+             << tokens[i].lexeme << "\t\t"
+             << tokens[i].line << "\t"
+             << tokens[i].column << endl;
+    }
 
     return 0;
 }
