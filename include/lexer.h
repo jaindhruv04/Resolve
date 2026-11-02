@@ -130,7 +130,138 @@ public:
         return token;
     }
 
-    vector<Token> tokenize();
+    Token readNumber()
+    {
+        string number = "";
+
+        int startLine = line;
+        int startColumn = column;
+
+        while (isDigit(currentChar()))
+        {
+            number += currentChar();
+            advance();
+        }
+
+        Token token;
+
+        token.type = TokenType::NUMBER;
+        token.lexeme = number;
+        token.line = startLine;
+        token.column = startColumn;
+
+        return token;
+    }
+
+    Token readOperator()
+    {
+        string op = "";
+
+        int startLine = line;
+        int startColumn = column;
+
+        op += currentChar();
+        advance();
+
+        if ((op == "=" || op == "!" ||
+             op == "<" || op == ">") &&
+            currentChar() == '=')
+        {
+            op += currentChar();
+            advance();
+        }
+
+        Token token;
+
+        token.type = TokenType::OPERATOR;
+        token.lexeme = op;
+        token.line = startLine;
+        token.column = startColumn;
+
+        return token;
+    }
+
+    Token readSeparator()
+    {
+        string separator = "";
+
+        int startLine = line;
+        int startColumn = column;
+
+        separator += currentChar();
+        advance();
+
+        Token token;
+
+        token.type = TokenType::SEPARATOR;
+        token.lexeme = separator;
+        token.line = startLine;
+        token.column = startColumn;
+
+        return token;
+    }
+
+    vector<Token> tokenize()
+    {
+        vector<Token> tokens;
+
+        while (currentChar() != '\0')
+        {
+            skipWhitespace();
+
+            if (currentChar() == '\0')
+            {
+                break;
+            }
+
+            if (isLetter(currentChar()) || currentChar() == '_')
+            {
+                tokens.push_back(readWord());
+            }
+            else if (isDigit(currentChar()))
+            {
+                tokens.push_back(readNumber());
+            }
+            else if (currentChar() == '+' ||
+                     currentChar() == '-' ||
+                     currentChar() == '*' ||
+                     currentChar() == '/' ||
+                     currentChar() == '%' ||
+                     currentChar() == '=' ||
+                     currentChar() == '!' ||
+                     currentChar() == '<' ||
+                     currentChar() == '>')
+            {
+                tokens.push_back(readOperator());
+            }
+            else if (currentChar() == ';' ||
+                     currentChar() == ',' ||
+                     currentChar() == '(' ||
+                     currentChar() == ')' ||
+                     currentChar() == '{' ||
+                     currentChar() == '}' ||
+                     currentChar() == '[' ||
+                     currentChar() == ']')
+            {
+                tokens.push_back(readSeparator());
+            }
+            else
+            {
+                Token token;
+
+                token.type = TokenType::INVALID;
+                token.lexeme = string(1, currentChar());
+                token.line = line;
+                token.column = column;
+
+                tokens.push_back(token);
+
+                advance();
+            }
+        }
+
+        return tokens;
+    }
 };
 
 #endif
