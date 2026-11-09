@@ -1,27 +1,27 @@
-
 # Resolve
 
-**Resolve** is a C++-based Lexical Analyzer (LEX Tool) that reads source code, identifies tokens, detects invalid characters, and continues scanning after encountering lexical errors.
+**Resolve** is a C++17-based Lexical Analyzer (LEX Tool) that reads source code, identifies tokens, detects invalid characters, and continues scanning after encountering lexical errors.
 
-The project demonstrates the basic working of lexical analysis, an important phase of compiler design.
+The project demonstrates the fundamentals of lexical analysis, one of the first phases of compiler design.
 
 ## Features
 
-- **Keyword Recognition:** Identifies reserved keywords such as `int`, `float`, `return`, `if`, and `while`.
-- **Identifier Recognition:** Recognizes variable names and other identifiers.
-- **Number Recognition:** Identifies integer literals.
-- **Operator Recognition:** Detects arithmetic, assignment, and comparison operators.
-- **Separator Recognition:** Identifies symbols such as semicolons, commas, parentheses, and braces.
-- **Invalid Token Detection:** Identifies unrecognized characters in the source code.
-- **Error Recovery:** Continues lexical analysis after encountering invalid characters.
-- **Position Tracking:** Tracks the line and column of each token.
-- **CLI Interface:** Accepts source code directly through the terminal and displays the generated tokens.
+- **Keyword Recognition:** Identifies reserved keywords such as `int`, `float`, `double`, `return`, `if`, and `while`.
+- **Identifier Recognition:** Recognizes variable names and identifiers, including those containing underscores and numbers.
+- **Integer Recognition:** Identifies integer literals in source code.
+- **Operator Recognition:** Detects arithmetic, assignment, and comparison operators, including `==`, `!=`, `<=`, and `>=`.
+- **Separator Recognition:** Identifies punctuation and grouping symbols such as semicolons, commas, parentheses, and braces.
+- **Invalid Character Detection:** Identifies unrecognized characters in source code.
+- **Basic Error Recovery:** Continues lexical analysis after encountering invalid characters.
+- **Position Tracking:** Tracks the line and column number of each token.
+- **Command-Line Interface:** Accepts multiline source code through the terminal and displays the generated token table.
 
 ## Technologies Used
 
-- C++
+- C++17
 - Standard Template Library (STL)
 - Object-Oriented Programming
+- Git and GitHub
 
 ## Project Structure
 
@@ -59,38 +59,39 @@ Resolve currently supports six token categories:
 
 ### Prerequisites
 
-- A C++ compiler (G++ recommended)
-- A terminal or command-line interface
+- A C++17-compatible compiler (G++ recommended).
+- Git installed on your system.
+- A terminal or command-line interface.
 
-### Compilation
-
-Clone the repository:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/jaindhruv04/Resolve.git
 ```
 
-Navigate to the project directory:
+### 2. Navigate to the Project Directory
 
 ```bash
 cd Resolve
 ```
 
-Compile the source files:
+### 3. Compile the Project
+
+Using G++:
 
 ```bash
-g++ src/main.cpp src/token.cpp src/lexer.cpp -o Resolve
+g++ -std=c++17 src/main.cpp src/token.cpp src/lexer.cpp -o Resolve
 ```
 
-### Run the Program
+### 4. Run the Program
 
-On Windows:
+**Windows:**
 
 ```powershell
 .\Resolve.exe
 ```
 
-On Linux or macOS:
+**Linux/macOS:**
 
 ```bash
 ./Resolve
@@ -98,9 +99,9 @@ On Linux or macOS:
 
 ## Usage
 
-After running the program, enter source code directly into the terminal.
+After executing the program, enter source code directly into the terminal.
 
-Type `END` on a new line to finish entering the source code and start lexical analysis.
+Type `END` on a new line to finish entering the source code and begin lexical analysis.
 
 ### Example Input
 
@@ -108,6 +109,7 @@ Type `END` on a new line to finish entering the source code and start lexical an
 int age = 20;
 float marks = 95;
 return age;
+END
 ```
 
 ### Example Output
@@ -134,12 +136,12 @@ SEPARATOR       ;               3       11
 
 ## Error Detection and Recovery
 
-Resolve detects invalid characters during lexical analysis.
+Resolve identifies invalid characters during lexical analysis.
 
 When an unrecognized character is encountered:
 
-1. It generates an `INVALID` token.
-2. It records the character's line and column.
+1. The lexer generates an `INVALID` token.
+2. It records the character's line and column position.
 3. It advances past the invalid character.
 4. It continues scanning the remaining source code.
 
@@ -148,23 +150,63 @@ When an unrecognized character is encountered:
 ```cpp
 int marks = @95;
 return marks;
+END
 ```
 
-The Lexer identifies `@` as an invalid token and continues recognizing the remaining tokens.
+In this example, `@` is identified as an invalid token. The lexer continues processing the remaining source code instead of terminating the analysis.
 
-## Project Objective
+## How It Works
 
-The objective of Resolve is to demonstrate the implementation of a basic lexical analyzer using C++.
+Resolve follows a straightforward lexical analysis process:
 
-It focuses on token identification, lexical error detection, position tracking, and basic error recovery through a command-line interface.
+1. **Input Collection:** Reads multiline source code from the terminal.
+2. **Character Scanning:** Processes the source code character by character.
+3. **Token Identification:** Classifies sequences into keywords, identifiers, numbers, operators, and separators.
+4. **Error Detection:** Identifies unsupported or unrecognized characters.
+5. **Position Tracking:** Maintains the line and column position of each token.
+6. **Token Generation:** Stores recognized tokens with their corresponding types and positions.
+7. **Output Generation:** Displays the generated token table in the terminal.
+
+## Current Limitations
+
+The current implementation focuses on basic lexical analysis and does not yet provide complete compiler functionality.
+
+Some features not currently implemented include:
+
+- Floating-point number recognition.
+- String and character literal handling.
+- Single-line and multiline comment handling.
+- Complete C++ keyword and operator support.
+- Syntax analysis and parsing.
+- Semantic analysis.
+- Advanced lexical error recovery.
 
 ## Future Improvements
 
-- Support for additional keywords and operators.
-- Improved handling of malformed numeric literals.
+Potential enhancements for future versions include:
+
+- Extended support for C++ keywords and operators.
+- Recognition of floating-point literals.
 - Support for string and character literals.
-- Expanded lexical error handling.
+- Improved handling of malformed numeric literals.
+- Better lexical error reporting and recovery.
+- Implementation of syntax analysis.
+- Introduction of semantic analysis.
+
+## Project Objective
+
+The objective of Resolve is to demonstrate the implementation of a basic lexical analyzer using C++17.
+
+It focuses on token identification, lexical error detection, source position tracking, and basic error recovery through a command-line interface.
+
+The project provides a foundation for understanding compiler design and the different stages involved in processing source code.
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+**Developed by [Dhruv Jain](https://github.com/jaindhruv04)**
+
+GitHub Repository: https://github.com/jaindhruv04/Resolve
